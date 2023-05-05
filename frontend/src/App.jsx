@@ -1,10 +1,13 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Login } from "./routes/Routes";
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline text-green-500">
-        Hello world! Rasel
-      </h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
