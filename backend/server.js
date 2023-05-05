@@ -1,5 +1,6 @@
 const colors = require("colors");
 const app = require("./app");
+const connectDatabase = require("./db/Database");
 
 // Handling uncaught Exception
 process.on("uncaughtException", (err) => {
@@ -15,6 +16,9 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
     path: "config/.env",
   });
 }
+
+// Connect Database
+connectDatabase();
 
 // create server
 const server = app.listen(process.env.PORT, () => {
