@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const path = require("path");
 
@@ -11,12 +12,12 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+app.use(fileUpload({ useTempFiles: true }));
 
 app.use("/", (req, res) => {
   res.send("Hello world!");
 });
-
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
