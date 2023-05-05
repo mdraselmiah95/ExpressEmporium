@@ -1,4 +1,5 @@
 const express = require("express");
+const ErrorHandler = require("./middleware/error");
 const app = express();
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -23,5 +24,8 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
     path: "config/.env",
   });
 }
+
+// Middleware for Errors Handling
+app.use(ErrorHandler);
 
 module.exports = app;
