@@ -1,3 +1,3 @@
-import Login from "../pages/Auth/Login";
+import LoginPage from "../pages/Auth/LoginPage";
 
-export { Login };
+export { LoginPage };
