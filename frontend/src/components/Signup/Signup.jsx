@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { RxAvatar } from "react-icons/rx";
 import styles from "../../styles/styles";
@@ -31,10 +32,14 @@ const Signup = () => {
     axios
       .post(`${server}/user/create-user`, newForm, config)
       .then((res) => {
-        console.log(res);
+        toast.success(res.data.message);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setAvatar();
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response.data.message);
       });
   };
 
