@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { RxAvatar } from "react-icons/rx";
 import styles from "../../styles/styles";
 
@@ -11,11 +12,14 @@ const Signup = () => {
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
+  const handleFileInputChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
-
-  const handleFileInputChange = () => {};
 
   return (
     <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
