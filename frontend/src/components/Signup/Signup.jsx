@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { RxAvatar } from "react-icons/rx";
 import styles from "../../styles/styles";
+import { server } from "../../server";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -14,11 +15,30 @@ const Signup = () => {
 
   const handleFileInputChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    setAvatar(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const config = {
+      headers: { "content-type": "multipart/form-data" },
+    };
+    let newForm = new FormData();
+
+    newForm.append("file", avatar);
+    newForm.append("name", name);
+    newForm.append("email", email);
+    newForm.append("password", password);
+
+    console.log(newForm);
+    axios
+      .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -12,11 +12,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "./uploads")));
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-
-app.use("/", (req, res) => {
-  res.send("Hello world!");
-});
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
