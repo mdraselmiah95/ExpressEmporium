@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/user.model");
 const ErrorHandler = require("../utils/ErrorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const sendToken = require("../utils/jwtToken");
 
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -27,6 +28,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       password,
       avatar: fileUrl,
     };
+
     const newUser = await User.create(user);
     res.status(201).json({
       success: true,
