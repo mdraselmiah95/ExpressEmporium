@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import axios from "axios";
 import styles from "../../styles/styles";
+import { server } from "../../server";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +13,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    await axios
+      .post(
+        `${server}/user/login-user`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success("Login Successful 🥉");
+        console.log(res);
+        // Navigate("/");
+      })
+      .catch((err) => {
+        toast.error("Please Provide valid information");
+      });
   };
 
   return (
