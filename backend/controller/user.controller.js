@@ -45,6 +45,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
         message: `please check your email:- ${user.email} to activate your account!`,
       });
     } catch (error) {
+      console.log(error);
       return next(new ErrorHandler(error.message, 500));
     }
 
@@ -65,6 +66,22 @@ const createActivationToken = (user) => {
   });
 };
 
+exports.activeUserByToken = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      { activationToken: req.params.token },
+      { activated: true, activationToken: null }
+    );
+    if (!user) {
+      return next(new ErrorHandler("Invalid activation token", 500));
+      // return res.status(404).json({ message: "Invalid activation token" });
+    }
+    return res.status(200).json({ message: "Account activated successfully" });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
 // activate user
 exports.activateUser = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -80,7 +97,7 @@ exports.activateUser = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler("User already exists", 400));
     }
 
-    const verifyUser = User.create({
+    const verifyUser = await User.create({
       name,
       email,
       avatar,

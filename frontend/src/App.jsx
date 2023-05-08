@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LoginPage, SignupPage } from "./routes/Routes";
+import { ActivationPage, LoginPage, SignupPage } from "./routes/Routes";
 
 function App() {
   return (
@@ -7,6 +7,10 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
+        <Route
+          path="/activation/:activation_token"
+          element={<ActivationPage />}
+        />
       </Routes>
     </BrowserRouter>
   );

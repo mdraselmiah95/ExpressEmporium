@@ -11,14 +11,14 @@ const sendMail = async (options) => {
     },
   });
 
-  const message = {
-    from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+  const mailOptions = {
+    from: process.env.SMPT_MAIL,
     to: options.email,
     subject: options.subject,
     text: options.message,
   };
 
-  await transporter.sendMail(message);
+  await transporter.sendMail(mailOptions);
 };
 
 module.exports = sendMail;
