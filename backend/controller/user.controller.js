@@ -32,7 +32,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
 
     const activationToken = createActivationToken(user);
 
-    const activationUrl = `http://localhost:5173/activation/${activationToken}`;
+    const activationUrl = `http://localhost:5173/activation?verify_account=${activationToken}`;
 
     try {
       await sendMail({

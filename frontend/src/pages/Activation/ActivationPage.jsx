@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { server } from "../../server";
 import axios from "axios";
 
 const ActivationPage = () => {
-  const { activation_token } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const verifyAccountToken = queryParams.get("verify_account");
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (activation_token) {
+    if (verifyAccountToken) {
       const sendRequest = async () => {
         await axios
           .post(`${server}/user/activation`, {
-            activation_token,
+            activation_token: verifyAccountToken,
           })
           .then((res) => {
             console.log(res);
@@ -23,7 +25,7 @@ const ActivationPage = () => {
       };
       sendRequest();
     }
-  }, []);
+  }, [verifyAccountToken]);
 
   return (
     <div
