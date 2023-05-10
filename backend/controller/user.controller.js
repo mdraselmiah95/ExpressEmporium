@@ -48,12 +48,6 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       console.log(error);
       return next(new ErrorHandler(error.message, 500));
     }
-
-    // const newUser = await User.create(user);
-    // res.status(201).json({
-    //   success: true,
-    //   newUser,
-    // });
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
   }
@@ -65,22 +59,6 @@ const createActivationToken = (user) => {
     expiresIn: "15m",
   });
 };
-
-exports.activeUserByToken = catchAsyncErrors(async (req, res, next) => {
-  try {
-    const user = await User.findOneAndUpdate(
-      { activationToken: req.params.token },
-      { activated: true, activationToken: null }
-    );
-    if (!user) {
-      return next(new ErrorHandler("Invalid activation token", 500));
-      // return res.status(404).json({ message: "Invalid activation token" });
-    }
-    return res.status(200).json({ message: "Account activated successfully" });
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
-  }
-});
 
 // activate user
 exports.activateUser = catchAsyncErrors(async (req, res, next) => {
@@ -112,8 +90,6 @@ exports.activateUser = catchAsyncErrors(async (req, res, next) => {
 exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
-    console.log(email, password);
     if (!email || !password) {
       return next(new ErrorHandler("Please all the fields", 400));
     }
@@ -128,11 +104,24 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         new ErrorHandler("Please provide the correct information", 400)
       );
     }
-    res.status(201).json({
-      user,
-      success: true,
-    });
+    sendToken(user, 201, res);
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
+  }
+});
+
+// load user
+exports.loadUser = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new ErrorHandler("User Doesn't exists", 400));
+    }
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
   }
 });

@@ -26,11 +26,12 @@ const Login = () => {
       )
       .then((res) => {
         toast.success("Login Successful 🥉");
-        console.log(res);
-        // Navigate("/");
+        setEmail("");
+        setPassword("");
+        navigate("/");
       })
       .catch((err) => {
-        toast.error("Please Provide valid information");
+        toast.error(err.response.data.message);
       });
   };
 
